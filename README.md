@@ -34,7 +34,7 @@ The repository contains a set of parametrized ansible playbooks and roles, with 
  - 1 master server is created per availability zone, the rest of instances are automatically allocated in the different public subnets and az's.
  - AWS secret and access keys have to be specified within creds.yml file via ansible-vault.
  - The deployment is mostly dynamic meaning it is using instance groups based on aws tags.
- - As pert of verification: it checks if the installation has been successful by making sure the YB-TServer servers are accesible and the installation was expected.
+ - As part of verification: it checks if the installation has been successful by making sure the YB-TServer servers are accesible and the installation was expected.
 
 ## Deployment 📦
 
