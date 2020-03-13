@@ -49,6 +49,9 @@ The following roles are used:
 | [roles/yugabyte_ec2_sg](services/WebService.yaml) | It is possible to configure the [security groups](http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_SecurityGroups.html) required by the entire stack on [roles/yugabyte_ec2_sg/defaults/main.yml](roles/yugabyte_ec2_sg/defaults/main.yml) |
 | [roles/yugabyte_setup](services/WebService.yaml) | Propagates Jinja template values for master.conf (YB-Master servers) and tserver.conf (YB-TServer servers) dinamically |
 | [roles/yugabyte_tbserver_startup](roles/yugabyte_tbserver_startup) | Initiliazes YB-Master servers as well as YB-TServer servers on the required nodes. |
+| [group_vars/tag_Env_Yugabyte_nodes.yml](group_vars/tag_Env_Yugabyte_nodes.yml) | Group variables for YB-TServer servers |
+| [group_vars/tag_Env_Yugabyte_nodes_master.yml](group_vars/tag_Env_Yugabyte_nodes_master.yml) | Group variables for YB-Master servers |
+
 
 
 The orchestration as well as deployment happen through ansible initializing first a python virtual environment, thus, you can trigger it as follows:
