@@ -34,6 +34,7 @@ The repository contains a set of parametrized ansible playbooks and roles, with 
  - 1 master server is created per availability zone, the rest of instances are automatically allocated in the different public subnets and az's.
  - AWS secret and access keys have to be specified within creds.yml file via ansible-vault.
  - The deployment is mostly dynamic meaning it is using instance groups based on aws tags.
+ - It verifies the installation has been successful, the YB-TServer servers are accesible to verify the orchestration.
 
 ## Deployment 📦
 
@@ -51,6 +52,10 @@ The following roles are used:
 | [roles/yugabyte_tbserver_startup](roles/yugabyte_tbserver_startup) | Initiliazes YB-Master servers as well as YB-TServer servers on the required nodes. |
 | [group_vars/tag_Env_Yugabyte_nodes.yml](group_vars/tag_Env_Yugabyte_nodes.yml) | Group variables for YB-TServer servers |
 | [group_vars/tag_Env_Yugabyte_nodes_master.yml](group_vars/tag_Env_Yugabyte_nodes_master.yml) | Group variables for YB-Master servers |
+| [roles/get_facts_master](roles/get_facts_master) | Getting panel url's from the YB-TServer servers |
+
+
+
 
 
 
