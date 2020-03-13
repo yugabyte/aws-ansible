@@ -1,4 +1,5 @@
-- hosts: localhost
+- hosts: localhost 
+  gather_facts: no #optimization to gather facts only when required
   vars_files:
     - creds.yml
   roles:
@@ -7,11 +8,17 @@
     - yugabyte_ec2
  
 - hosts: tag_Env_Yugabyte_nodes*
+  gather_facts: no 
+  pre_tasks:
+    - setup:
   roles:
     - yugabyte_common
     - yugabyte_setup
     
 - hosts: tag_Env_Yugabyte_nodes_master
+  gather_facts:	no
+  pre_tasks:
+    - setup: # gather facts only when needed not every time
   roles:
     - role: yugabyte_tbserver_startup
       vars:
@@ -20,6 +27,9 @@
         basedir_yugabyte: "{{ master_dir }}"
        
 - hosts: tag_Env_Yugabyte_nodes*
+  gather_facts:	no
+  pre_tasks:
+    - setup:
   roles:
     - role: yugabyte_tbserver_startup
       vars:
@@ -28,7 +38,17 @@
         basedir_yugabyte: "{{ tserver_dir }}"
         
 - hosts: tag_Name_Yugabyte_nodes_master_1
+  gather_facts:	no
+  pre_tasks:
+    - setup:
   vars_files:
     - creds.yml
   roles:
     - configure_region_placement
+
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    - creds.yml
+  roles:
+    - { role: get_facts_master, tags: [ 'check_master_ui'] }

@@ -60,3 +60,7 @@
 - name: debug values az
   debug: msg="{{ page_az }}"
 
+- name: Access Yugabyte DB panel on these master servers
+  debug: msg="{{ item }}:7000"
+  with_items:
+    - "{{ master_dns1 }}"

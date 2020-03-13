@@ -21,17 +21,13 @@
     state: present
     timeout: 300
 
-- name: set symlink directory
-  set_fact:
-    destination: "{{ [master_dir,tserver_dir] if hostvars[inventory_hostname].group_names is search('master') else tserver_dir }}"
-
 - name: Create symbolic link for installation
   file:
     src: "{{ install_dir }}"
     dest: "{{ item }}"
     state: link
   with_items:
-    - "{{ destination }}"
+    - "{{ link_destinations }}"
 
 - name: Getting master host dns
   vars:

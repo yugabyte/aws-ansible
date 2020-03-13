@@ -42,7 +42,7 @@ The following roles are used:
 | Template | Description |
 | --- | --- | 
 | [roles/yugabyte_vpc](roles/yugabyte_vpc) | this does not only orchestrates a VPC including there public subnets distributed across three Availability Zones, but it also deploys an [Internet gateway]. (http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Internet_Gateway.html), with a routing table on the public subnets. Due to a limitation on getting an array from module ec2_vpc_route_table, we have to add instances as set of strings there
-[main.yml](roles/yugabyte_vpc/tasks/main.yml)|
+[main.yml](roles/yugabyte_vpc/tasks/main.yml)| Stands for the main ansible execution file for executing the roles accordingly
 | [roles/configure_region_placement](roles/configure_region_placement) | Configures AZ- and region-aware placement based on a replication factor of 3.  |
 | [roles/yugabyte_common](roles/yugabyte_common) | Installs required system packages (for centos in this case), configures ulimits, creates needed folders for deployment as well as installing yugabyte db on every node. |
 | [roles/yugabyte_ec2](infrastructure/ecs-cluster.yaml) | Deploys a dynamic set of ec2 instances as per the variable file (in this case 6) and attaches them to the public subnets (1 master instance per availability zone and the other ones spawned accross the all AZ) |
@@ -113,6 +113,40 @@ Master Yugabyte DB details:
 
 Cluster config:
 ![Cluster config](images/cluster_config.png)
+
+You can verify the Yugabyte DB master consoles by executing this:
+
+```
+ansible-playbook -i aws_ec2.yml main.yml --ask-vault-pass --tags "check_master_ui"
+```
+
+which will show them accordingly. You can see a sample next:
+
+```
+TASK [get_facts_master : Acces Yugabyte DB panel on these master servers] *********************************************************************
+ok: [localhost] => (item=ec2-3-120-250-78.eu-central-1.compute.amazonaws.com:7000) => {}
+
+MSG:
+
+ec2-3-120-250-78.eu-central-1.compute.amazonaws.com:7000
+ok: [localhost] => (item=ec2-3-120-158-65.eu-central-1.compute.amazonaws.com:7000) => {}
+
+MSG:
+
+ec2-3-120-158-65.eu-central-1.compute.amazonaws.com:7000
+ok: [localhost] => (item=ec2-3-125-114-71.eu-central-1.compute.amazonaws.com:7000) => {}
+
+MSG:
+
+ec2-3-125-114-71.eu-central-1.compute.amazonaws.com:7000
+
+PLAY RECAP ************************************************************************************************************************************
+localhost                  : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0 
+
+```
+
+if everything was succesful, at the end of the execution, ansible will provide a summary regarding the execution such as the following:
+![Ansible Execution Summary](images/Execution_ansible.png)
 
 ### Adjusting Instance types
 
