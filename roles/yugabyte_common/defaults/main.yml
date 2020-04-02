@@ -1,5 +1,5 @@
 ---
-# defaults file for yugabyte_install
+# defaults file for yugabyte_common
 packages_centos:
   - epel-release
   - ntp
