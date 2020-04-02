@@ -20,7 +20,7 @@
   pre_tasks:
     - setup: # gather facts only when needed not every time
   roles:
-    - role: yugabyte_tbserver_startup
+    - role: cluster_control
       vars:
         file_config: master.conf
         process: yb-master
@@ -31,7 +31,7 @@
   pre_tasks:
     - setup:
   roles:
-    - role: yugabyte_tbserver_startup
+    - role: cluster_control
       vars:
         file_config: "tserver.conf"
         process: yb-tserver

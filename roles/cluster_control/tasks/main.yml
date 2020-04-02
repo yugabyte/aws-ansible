@@ -1,5 +1,5 @@
 ---
-# tasks file for yugabyte_master_startup
+# tasks file for cluster_control
 
 - name: "Start {{ process }}  servers"
   shell: |
