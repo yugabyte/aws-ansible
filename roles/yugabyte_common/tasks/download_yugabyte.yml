@@ -39,7 +39,7 @@
   vars:
     query: "tag_Env_{{ ec2_tag }}[]"
   set_fact:
-    tbserver_dns: "{{ hostvars[inventory_hostname].groups | json_query(query) }}"
+    tserver_dns: "{{ hostvars[inventory_hostname].groups | json_query(query) }}"
 
 - name: set master addresses on port 7100
   set_fact:
