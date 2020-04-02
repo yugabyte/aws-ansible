@@ -3,10 +3,6 @@
 packages_centos:
   - epel-release
   - ntp
-  - perf
-  - sysstat
-  - net-tools
-  - links
   - lsof
 
-k
+
