@@ -46,9 +46,9 @@ The following roles are used:
 [main.yml](main.yml)| Stands for the main ansible execution file for executing the roles accordingly
 | [roles/configure_region_placement](roles/configure_region_placement) | Configures AZ- and region-aware placement based on a replication factor of 3.  |
 | [roles/yugabyte_common](roles/yugabyte_common) | Installs required system packages (for centos in this case), configures ulimits, creates needed folders for deployment as well as installing yugabyte db on every node. |
-| [roles/yugabyte_ec2](infrastructure/ecs-cluster.yaml) | Deploys a dynamic set of ec2 instances as per the variable file (in this case 6) and attaches them to the public subnets (1 master instance per availability zone and the other ones spawned accross the all AZ) |
-| [roles/yugabyte_ec2_sg](services/WebService.yaml) | It is possible to configure the [security groups](http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_SecurityGroups.html) required by the entire stack on [roles/yugabyte_ec2_sg/defaults/main.yml](roles/yugabyte_ec2_sg/defaults/main.yml) |
-| [roles/yugabyte_setup](services/WebService.yaml) | Propagates Jinja template values for master.conf (YB-Master servers) and tserver.conf (YB-TServer servers) dinamically |
+| [roles/yugabyte_ec2](roles/yugabyte_ec2) | Deploys a dynamic set of ec2 instances as per the variable file (in this case 6) and attaches them to the public subnets (1 master instance per availability zone and the other ones spawned accross the all AZ) |
+| [roles/yugabyte_ec2_sg](roles/yugabyte_ec2_sg) | It is possible to configure the [security groups](http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_SecurityGroups.html) required by the entire stack on [roles/yugabyte_ec2_sg/defaults/main.yml](roles/yugabyte_ec2_sg/defaults/main.yml) |
+| [roles/yugabyte_setup](roles/yugabyte_setup) | Propagates Jinja template values for master.conf (YB-Master servers) and tserver.conf (YB-TServer servers) dinamically |
 | [roles/cluster_control](roles/cluster_control) | Initiliazes YB-Master servers as well as YB-TServer servers on the required nodes. |
 | [group_vars/tag_Env_Yugabyte_nodes.yml](group_vars/tag_Env_Yugabyte_nodes.yml) | Group variables for YB-TServer servers |
 | [group_vars/tag_Env_Yugabyte_nodes_master.yml](group_vars/tag_Env_Yugabyte_nodes_master.yml) | Group variables for YB-Master servers |
