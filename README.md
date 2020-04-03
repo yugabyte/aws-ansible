@@ -1,4 +1,4 @@
-#aws-ansible
+# aws-ansible
 ## YugabyteDB AWS Ansible deployment scripts
 
 The goal is to create Ansible recipes/playbooks for deploying YugabyteDB on AWS by means of the following guidelines:
