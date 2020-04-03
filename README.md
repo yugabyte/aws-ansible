@@ -1,4 +1,5 @@
-# Yugabyte DB automated cloud provisioning using AWS and Ansible  
+#aws-ansible
+## YugabyteDB AWS Ansible deployment scripts
 
 The goal is to create Ansible recipes/playbooks for deploying YugabyteDB on AWS by means of the following guidelines:
 - Multi AZ support (3 as per the current implementation and configurable) 
