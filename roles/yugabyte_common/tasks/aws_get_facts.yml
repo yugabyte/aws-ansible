@@ -1,0 +1,24 @@
+- name: Getting master host dns
+  vars:
+    query: "tag_Env_{{ ec2_tag }}_master[]"
+  set_fact:
+    master_dns: "{{ hostvars[inventory_hostname].groups | json_query(query) }}"
+
+- name: Getting tservers dns
+  vars:
+    query: "tag_Env_{{ ec2_tag }}[]"
+  set_fact:
+    tserver_dns: "{{ hostvars[inventory_hostname].groups | json_query(query) }}"
+
+- name: set master addresses on port 7100
+  set_fact:
+    MASTER_RPC_ADDRS: "{{ MASTER_RPC_ADDRS | default([]) + [':'.join((item,'7100'))] }}"
+  loop: "{{ master_dns | list}}"
+
+- name: set hostname facts for tservers and tmaster servers
+  set_fact:
+    public_dns_name: "{{ hostvars[inventory_hostname].public_dns_name }}"
+    availability_zone: "{{ hostvars[inventory_hostname].placement.availability_zone }}"
+
+- name: debug dns
+  debug: msg="{{ MASTER_RPC_ADDRS }}"

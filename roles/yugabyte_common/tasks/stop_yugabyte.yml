@@ -1,0 +1,20 @@
+- name: Get running processes
+  shell: "ps auxwww | egrep -v grep | egrep -i 'yb-[master|tserver].*' | awk '{print $2}'"
+  register: running_processes
+  become: true
+  
+- name: Kill running processes
+  shell: "kill {{ item }}"
+  with_items: "{{ running_processes.stdout_lines }}"
+  ignore_errors: yes
+  
+- wait_for:
+    path: "/proc/{{ item }}/status"
+    state: absent
+  with_items: "{{ running_processes.stdout_lines }}"
+  ignore_errors: yes
+  register: killed_processes
+
+- name: Force kill stuck processes
+  shell: "kill -9 {{ item }}"
+  with_items: "{{ killed_processes.results | select('failed') | map(attribute='item') | list }}"

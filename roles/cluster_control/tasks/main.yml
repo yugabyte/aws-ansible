@@ -1,25 +1,59 @@
 ---
 # tasks file for cluster_control
 
-- name: "Start {{ process }}  servers"
-  shell: |
-    nohup {{ basedir_yugabyte }}/bin/{{ process }} --flagfile {{ conf_dir }}/{{ file_config }} \
-      > {{ ansible_env.HOME }}/{{ process }}.out 2>&1 & sleep 1
-  register: master_status
+- name: Try to start master servers
+  block:
+    - name: "Start {{ process }}  servers"
+      shell: |
+        cd {{ ansible_env.HOME }}; nohup {{ basedir_yugabyte }}/bin/{{ process }} --flagfile {{ conf_dir }}/{{ file_config }} \
+          > {{ base_install }}/{{ process }}.out 2>&1 & sleep 1
+      register: master_status
   
-- name: "check if {{ process }} started"
-  shell: "ps auxww | grep {{ process }} | egrep -v grep"
-  register: pid
-  until: "pid.rc == 0"
-  retries: 100
-  delay: 9
+    - name: "check if {{ process }} started"
+      shell: "ps auxww | grep {{ process }} | egrep -v grep"
+      register: pid
+      until: "pid.rc == 0"
+      retries: 100
+      delay: 4
 
-- name: Check that you can connect (GET) to master db page and it returns a status 200
-  uri:
-    url: "http://{{ hostvars[inventory_hostname].public_dns_name }}:7000"
-  when: hostvars[inventory_hostname].group_names is search('master')
-  register: master_start_after
-  until: "master_start_after.status == 200"
-  retries: 100
-  delay: 9
+    - name: Check that you can connect (GET) to master db page and it returns a status 200
+      uri:
+        url: "http://{{ public_dns_name }}:7000"
+      when: hostvars[inventory_hostname].group_names is search('master')
+      register: master_start_after
+      until: "master_start_after.status == 200"
+      retries: 10
+      delay: 3
+  rescue:
+    - name: stoo yugabyte
+      include_role:
+        name: yugabyte_common
+        tasks_from: stop_yugabyte
 
+    - name: delete data dir to restart master servers
+      file:
+        path: "{{ data_dir }}"
+        state: absent
+
+    - name: "Start {{ process }}  servers"
+      shell: |
+        cd {{ ansible_env.HOME }}; nohup {{ basedir_yugabyte }}/bin/{{ process }} --flagfile {{ conf_dir }}/{{ file_config }} \
+          > {{ base_install }}/{{ process }}.out 2>&1 & sleep 1
+      register: master_status
+
+    - name: "check if {{ process }} started"
+      shell: "ps auxww | grep {{ process }} | egrep -v grep"
+      register: pid
+      until: "pid.rc == 0"
+      retries: 100
+      delay: 4
+
+    - name: Check that you can connect (GET) to master db page and it returns a status 200
+      uri:
+        url: "http://{{ public_dns_name }}:7000"
+      when: hostvars[inventory_hostname].group_names is search('master')
+      register: master_start_after
+      until: "master_start_after.status == 200"
+      retries: 10
+      delay: 3
+    

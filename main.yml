@@ -1,20 +1,18 @@
-- hosts: localhost 
-  gather_facts: no #optimization to gather facts only when required
-  vars_files:
-    - creds.yml
-  roles:
-    - yugabyte_vpc
-    - yugabyte_ec2_sg
-    - yugabyte_ec2
+#- hosts: localhost
+#  gather_facts: no #optimization to gather facts only when required
+#  vars_files:
+#    - creds.yml
+#  roles:
+#    - "cloud_providers"
  
-- hosts: tag_Env_Yugabyte_nodes*
+- hosts: "tag_Env_Yugabyte_nodes*"
   gather_facts: no 
   pre_tasks:
     - setup:
   roles:
     - yugabyte_common
     - yugabyte_setup
-    
+
 - hosts: tag_Env_Yugabyte_nodes_master
   gather_facts:	no
   pre_tasks:

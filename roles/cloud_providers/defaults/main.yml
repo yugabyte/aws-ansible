@@ -1,4 +1,10 @@
 ---
+# defaults file for yugabyte_ec2
+
+device_name: /dev/xvda    
+vol_type: gp2
+vol_size: 8
+
 # defaults file for yugabyte_ec2_sg
 YUGABYTE_SEC_GROUPS:
   - name: "{{ cluster_name }}"

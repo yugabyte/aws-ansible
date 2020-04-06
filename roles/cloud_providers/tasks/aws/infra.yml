@@ -1,0 +1,11 @@
+- name: Configure local ssh config for bastion proxy use
+  include_tasks: "vpc.yml"
+  when: vpc_create|default(true)|bool == true
+
+- include: security_groups.yml
+
+- include: ec2_key.yml
+
+- include: ec2_instances.yml
+
+

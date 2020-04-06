@@ -1,0 +1,4 @@
+cloud: "aws"
+aws_region: "eu-central-1"
+vpc_id: ""
+subnet_ids: []

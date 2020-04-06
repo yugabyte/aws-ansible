@@ -47,7 +47,7 @@
   debug: msg="{{ values_az }}"
 
 - name: Configuring az distribution
-  shell: '~/master/bin/yb-admin --master_addresses {{ MASTER_RPC_ADDRS1 | join(",") }} modify_placement_info {{ values_az | join(",") }} {{ az_count }}'
+  shell: '{{ master_dir }}/bin/yb-admin --master_addresses {{ MASTER_RPC_ADDRS1 | join(",") }} modify_placement_info {{ values_az | join(",") }} {{ az_count }}'
   
 - name: Check that you can connect (GET) to a page and it returns a status 200
   uri:
