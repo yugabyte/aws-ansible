@@ -1,9 +1,9 @@
-#- hosts: localhost
-#  gather_facts: no #optimization to gather facts only when required
-#  vars_files:
-#    - creds.yml
-#  roles:
-#    - "cloud_providers"
+- hosts: localhost
+  gather_facts: no #optimization to gather facts only when required
+  vars_files:
+    - creds.yml
+  roles:
+    - "cloud_providers"
  
 - hosts: "tag_Env_Yugabyte_nodes*"
   gather_facts: no 

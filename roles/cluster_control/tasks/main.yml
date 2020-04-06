@@ -25,7 +25,7 @@
       retries: 10
       delay: 3
   rescue:
-    - name: stoo yugabyte
+    - name: stop yugabyte
       include_role:
         name: yugabyte_common
         tasks_from: stop_yugabyte
