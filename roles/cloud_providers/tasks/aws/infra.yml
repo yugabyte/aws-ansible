@@ -1,4 +1,11 @@
-- name: Configure local ssh config for bastion proxy use
+- assert:
+    that:
+      - vpc_id != ""
+      - subnet_ids != ""
+    fail_msg: "make sure to specify vpc_id and subnet_ids inside group_vars/all.yml from inventories folder if vpc_create is set to false"
+  when: vpc_create|bool == false
+
+- name: Configure VPC on the cloud
   include_tasks: "vpc.yml"
   when: vpc_create|default(true)|bool == true
 

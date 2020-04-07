@@ -1,37 +1,3 @@
-cluster_name: "Yugabyte_cluster"
-type_instance: "t2.micro"
-# aws.networking
-vpc_name:       'Yugabyte_VPC_Res'
-vpc_cidr_2:     '185'
-vpc_cidr: '10.{{vpc_cidr_2}}.0.0/16'
-vpc_create: true
-
-subnets:
-  - type: public
-    cidr: "10.{{vpc_cidr_2}}.10.0/24"
-    az: a
-  - type: public
-    cidr: "10.{{vpc_cidr_2}}.11.0/24"
-    az: b
-  - type: public
-    cidr: "10.{{vpc_cidr_2}}.21.0/24"
-    az: c
-
-route_name: "yugabyte_route"
-instances_per_subnet: 2
-
-# Internet Gateway Name
-igw_name: "Yugabyte_igw"
- 
-securitygroup_name: "Yugabyte_security_group"
-
-ec2_tag: "Yugabyte_nodes"
-ansible_user: centos 
-#The local path to which we would save our EC2 Private Key
-#if the keypair name alreay exists within amazon, it will pick the location key, otherwise it stores it in that directory
-ec2_key_directory: "PATH_PRIVATE_KEY"
-keypair_name: "ec2_key_pair"
-
 #base yugabyte directory wherein all yugabyte related files will reside
 base_install: "{{ ansible_env.HOME }}/yugabyte_db"
 data_dir: "{{ base_install }}/data_dir"

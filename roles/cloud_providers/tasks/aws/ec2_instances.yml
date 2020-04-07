@@ -1,8 +1,8 @@
-- name: find ami instance-id for RHEL7
+- name: find ami instance-id
   ec2_ami_info:
     owners: "aws-marketplace"
     filters:
-       "product-code": "aw0evgkw8e5c1q413zgy5pjce"
+       "product-code": "{{ instance_product_code }}" 
     region: "{{ region }}"
   register: amis
 
@@ -10,7 +10,7 @@
   debug:
     var: amis
     
-- name:  print out ami instance id
+- name: get the latest ami as per the aws market place product code
   set_fact:
     server01_ami: >
       {{ amis.images | selectattr('name', 'defined') | sort(attribute='creation_date') | last }}

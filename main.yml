@@ -4,7 +4,7 @@
     - creds.yml
   roles:
     - "cloud_providers"
- 
+  
 - hosts: "tag_Env_Yugabyte_nodes*"
   gather_facts: no 
   pre_tasks:
@@ -35,7 +35,7 @@
         process: yb-tserver
         basedir_yugabyte: "{{ tserver_dir }}"
         
-- hosts: tag_Name_Yugabyte_nodes_master_1
+- hosts: tag_Name_Yugabyte_nodes_master
   gather_facts:	no
   pre_tasks:
     - setup:
