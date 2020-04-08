@@ -84,7 +84,7 @@ pip3 install -r requirements.txt
 ```
 Run the ansible recipes, make sure to go to the amazon inventory folder, wherein cloud specific aws variable reside into as well as the dynamic plugin:
 ```
-ansible-playbook -i **inventories/inventory_aws main.yml** --ask-vault-pass
+ansible-playbook -i inventories/inventory_aws main.yml --ask-vault-pass
 ```
 
 Sample output is as follows:
@@ -124,7 +124,7 @@ Cluster config:
 You can verify the Yugabyte DB master consoles by executing this:
 
 ```
-ansible-playbook -i aws_ec2.yml main.yml --ask-vault-pass --tags "check_master_ui"
+ansible-playbook -i inventories/inventory_aws main.yml main.yml --ask-vault-pass --tags "check_master_ui"
 ```
 
 which will show them accordingly. You can see a sample next:
@@ -157,38 +157,15 @@ if everything was succesful, at the end of the execution, ansible will provide a
 
 ### Adjusting Instance types
 
-By default, [t2.micro](https://aws.amazon.com/ec2/instance-types/) instances are utilized and can be changed on the ansible [group_vars/all.yml](group_vars/all.yml) file.
+By default, [t2.micro](https://aws.amazon.com/ec2/instance-types/) instances are utilized and can be changed on the ansible [inventories/inventory_aws/group_vars/all.yml](inventories/inventory_aws/group_vars/all.yml) file.
 
 ```
-- name: Change details for the Yugabyte DB cluster in group_vars/all.yml
-  region: "eu-central-1"
-  type_instance: t2.micro
-cloud: aws
-ec2_tag: "Yugabyte_nodes"
-ansible_user: centos 
-#The local path to which we would save our EC2 Private Key
-ec2_key_directory: "./"
-keypair_name: "ec2_key_pair"
-key_location: "~/Documents/yugabyte_exam/key.ppk"
-
-conf_dir: "~/yb-conf"
-software_dir: "~/yb-software"
-
-YB_VERSION: 2.1.2.0
-
-TAR_FILE: "yugabyte-{{ YB_VERSION }}-linux.tar.gz"
-
-ulimits_security:
-  - { limit_type: '-', limit_item: 'core', value: unlimited }
-  - { limit_type: '-', limit_item: 'nofile', value: 1048576 }
-  - { limit_type: '-', limit_item: 'nproc', value: 12000 }
-
-master_dir: "~/master"
-tserver_dir: "~/tserver"
-
-linux_distribution: "centos"
-centos_release: "7"
-...........
+type_instance: "t2.micro" #instance type
+ansible_user: "centos"
+device_name: /dev/xvda
+vol_type: gp2
+vol_size: 8
+........
 
 ```
 
@@ -203,7 +180,7 @@ This set of ansible roles deploys the following network design as default (can b
 | Public Subnet | 10.185.11.0/24 | 256 | The public subnet in the second Availability Zone |
 | Public subnet | 10.185.21.0/24 | 256 | The public subnet in the third Availability Zone |
 
-Values for VPC and subnets can be modified within the ansible group_vars/all.yml file. Furthermore, It is possible to add more public subnets and one per availability zone. As of now, it is only possible to indicate public subnets.
+Values for VPC and subnets can be modified within the ansible [VPC AWS variables](inventories/inventory_aws/group_vars/all.yml). Furthermore, It is possible to add more public subnets and one per availability zone. As of now, it is only possible to indicate public subnets. 
 
 ```
 aws_region:     'eu-central-1'
@@ -223,6 +200,15 @@ subnets:
     az: c
  .........
  .........
+```
+
+Furthermore, it is also possible to exclude the vpc creation by setting vpc_create variable to false. Howerver, it is important to notice that if the vpc is not created, the user is expected to indicate the vpc id as well as the subnet ids, otherwise it would fail:
+```
+vpc_create: true #to indicate if VPC should be created or not
+#Indicate VPC id and subnet ids if vpc_create is set to false (already a VPC is present)
+vpc_id: "" 
+subnet_ids: []
+
 ```
 
 ## License
