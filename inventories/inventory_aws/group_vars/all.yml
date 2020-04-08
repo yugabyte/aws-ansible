@@ -30,7 +30,7 @@ vol_size: 8
 
 #The local path to which we would save our EC2 Private Key
 #if the keypair name alreay exists within amazon, it will pick the location key, otherwise it stores it in that directory
-ec2_key_directory: "~/Documents/yugabyte_exam/key.ppk"
+ec2_key_directory: "YOUR KEY PATH"
 keypair_name: "ec2_key_pair"
 
 instance_product_code: "aw0evgkw8e5c1q413zgy5pjce"
