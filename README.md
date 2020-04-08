@@ -7,7 +7,7 @@ The goal is to create Ansible recipes/playbooks for deploying YugabyteDB on AWS 
 - based on https://docs.yugabyte.com/latest/deploy/public-clouds/aws/#manual-deployment
 - Orchestration by using Ansible as a server configuration management tool
 - Number of public subnets, availability zones and instances can be parametrized.
-- Uses aws_ec2 Dynamic ansible inventory plugin located within inventories folder.
+- Uses aws_ec2 dynamic ansible inventory plugin located within inventories folder.
 - Structured in such a way that new clouds can be added by means of using the related dynamic inventory plugins.
 
 ### Prerequisites 📋
@@ -49,8 +49,8 @@ The following roles are used:
 [main.yml](main.yml)| Stands for the main ansible execution file for executing the roles accordingly
 | [roles/configure_region_placement](roles/configure_region_placement) | Configures AZ- and region-aware placement based on a replication factor of 3.  |
 | [roles/yugabyte_common](roles/yugabyte_common) | Installs required system packages (for centos in this case), configures ulimits, creates needed folders for deployment as well as installing yugabyte db on every node. |
-| [roles/cloud_providers/tasks/aws/ec2_instances.yml](roles/cloud_providers/aws/tasks/ec2_instances.yml) | Contains all the playbooks to create a VPC, instances, and security groups. Deploys a dynamic set of Amazon ec2 instances as per the variable file (in this case 6) and attaches them to the public subnets (1 master instance per availability zone and the other ones spawned accross the all AZ) |
-| [roles/cloud_providers/aws/tasks/yugabyte_ec2_sg.yml](roles/cloud_providers/aws/tasks/yugabyte_ec2_sg.yml) | It is possible to configure the [security groups](http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_SecurityGroups.html) required by the entire stack on [roles/yugabyte_ec2_sg/defaults/main.yml](roles/cloud_providers/defaults/main.yml) |
+| [roles/cloud_providers/tasks/aws/ec2_instances.yml](roles/cloud_providers/tasks/aws/ec2_instances.yml) | Contains all the playbooks to create a VPC, instances, and security groups. Deploys a dynamic set of Amazon ec2 instances as per the variable file (in this case 6) and attaches them to the public subnets (1 master instance per availability zone and the other ones spawned accross the all AZ) |
+| [roles/cloud_providers/tasks/aws/yugabyte_ec2_sg.yml](roles/cloud_providers/tasks/aws/yugabyte_ec2_sg.yml) | It is possible to configure the [security groups](http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_SecurityGroups.html) required by the entire stack on [roles/yugabyte_ec2_sg/defaults/main.yml](roles/cloud_providers/defaults/main.yml) |
 | [roles/yugabyte_setup](roles/yugabyte_setup) | Propagates Jinja template values for master.conf (YB-Master servers) and tserver.conf (YB-TServer servers) dinamically |
 | [roles/cluster_control](roles/cluster_control) | Initiliazes YB-Master servers as well as YB-TServer servers on the required nodes. It also makes sure to install a cronjob for master and tservers in case they go down. |
 | [group_vars/tag_Env_Yugabyte_nodes.yml](group_vars/tag_Env_Yugabyte_nodes.yml) | Group variables for YB-TServer servers |
@@ -82,9 +82,9 @@ Install dependencies:
 ```
 pip3 install -r requirements.txt
 ```
-Run the ansible recipes
+Run the ansible recipes, make sure to go to the amazon inventory folder, wherein cloud specific aws variable reside into as well as the dynamic plugin:
 ```
-ansible-playbook -i aws_ec2.yml main.yml --ask-vault-pass
+ansible-playbook -i **inventories/inventory_aws main.yml** --ask-vault-pass
 ```
 
 Sample output is as follows:
