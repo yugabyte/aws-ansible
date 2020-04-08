@@ -6,6 +6,6 @@
     day: "*"
     month: "*"
     weekday: "*"
-    job: "/usr/bin/bash {{ base_install }}/restart.sh {{ item }} {{ base_install }} {{ data_dir }} 7000"
+    job: "/usr/bin/bash {{ base_install }}/restart.sh {{ item }} {{ base_install }} {{ data_dir }} 7000 &"
   with_items:
     - "{{ templates_names }}"

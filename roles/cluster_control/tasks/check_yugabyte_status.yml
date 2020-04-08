@@ -17,6 +17,7 @@
         cd {{ base_install }}; nohup {{ master_dir }}/bin/yb-master --flagfile {{ conf_dir }}/master.conf \
           > {{ base_install }}/master_install.out 2>&1 & sleep 1
       register: master_status
+      when: hostvars[inventory_hostname].group_names is search('master')
       
     - name: "check if master server started"
       shell: "ps auxww | grep yb-master | egrep -v grep"
@@ -25,12 +26,14 @@
       retries: 100
       delay: 4
       when: hostvars[inventory_hostname].group_names is search('master')
+
     - name: Prepare cronjobs and delete previous Yugabyte ones
       cron:
-        name: "YugabyteDB Cronjob for {{ item }}"
+        name: "{{ item }}"
         state: absent
       with_items:
         - "{{ templates_names }}"
+
     - name: enable master cronjobs
       include_tasks: crontab_configure.yml
       when: hostvars[inventory_hostname].group_names is search('master')
@@ -44,19 +47,20 @@
       delay: 3
       with_items:
         - "{{ master_ips }}"
+    
     - name: "Start tservers servers"
       shell: |
         cd {{ base_install }}; nohup {{ tserver_dir }}/bin/yb-tserver --flagfile {{ conf_dir }}/tserver.conf \
           > {{ base_install }}/tserver_install.out 2>&1 & sleep 1
       register: tserver_status
 
-    - name: "check if master server started"
+    - name: "check if tserver server started"
       shell: "ps auxww | grep yb-tserver | egrep -v grep"
       register: pid
       until: "pid.rc == 0"
       retries: 100
       delay: 4
-      when: hostvars[inventory_hostname].group_names is not search('master')
+    
     - name: include cronjobs for tserver
       include_tasks: crontab_configure.yml
       when: hostvars[inventory_hostname].group_names is not search('master')
