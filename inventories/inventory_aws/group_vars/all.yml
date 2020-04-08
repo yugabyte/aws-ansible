@@ -23,21 +23,21 @@ instances_per_subnet: 2
 igw_name: "Yugabyte_igw"
 
 ec2_tag: "Yugabyte_nodes"
-ansible_user: centos
+ansible_user: "centos"
 device_name: /dev/xvda
 vol_type: gp2
 vol_size: 8
 
 #The local path to which we would save our EC2 Private Key
 #if the keypair name alreay exists within amazon, it will pick the location key, otherwise it stores it in that directory
-ec2_key_directory: "PATH_PRIVATE_KEY"
+ec2_key_directory: "~/Documents/yugabyte_exam/key.ppk"
 keypair_name: "ec2_key_pair"
 
 instance_product_code: "aw0evgkw8e5c1q413zgy5pjce"
 SGDBName: "Yugabyte_cluster" #Security db group name
 SGDBInfra: "infra_secgroup" #Security infra group name
 type_instance: "t2.micro" #instance type
-vpc_create: false #to indicate if VPC should be created or not
+vpc_create: true #to indicate if VPC should be created or not
 #Indicate VPC id and subnet ids if vpc_create is set to false (already a VPC is present)
 vpc_id: "" 
 subnet_ids: []

@@ -1,7 +1,7 @@
 --master_addresses={{ MASTER_RPC_ADDRS | join(',') }}
 --fs_data_dirs={{ data_dir }}
---rpc_bind_addresses={{ public_dns_name }}:7100
---webserver_interface={{ public_dns_name }}
+--rpc_bind_addresses={{ public_hostname }}:7100
+--webserver_interface={{ public_hostname }}
 --placement_cloud={{ cloud }}
 --placement_region={{ region }}
 --placement_zone={{ availability_zone }}

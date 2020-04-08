@@ -4,4 +4,5 @@ packages_centos:
   - epel-release
   - ntp
   - lsof
+  - wget
 
