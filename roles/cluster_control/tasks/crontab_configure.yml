@@ -1,0 +1,11 @@
+- name: Ensure a cronjob exists for master and tservers
+  cron:
+    name: "YugabyteDB Cronjob for {{ item }}"
+    minute: "*/5"
+    hour: "*"
+    day: "*"
+    month: "*"
+    weekday: "*"
+    job: "/usr/bin/bash {{ base_install }}/restart.sh {{ item }} {{ base_install }} {{ data_dir }} 7000"
+  with_items:
+    - "{{ templates_names }}"
