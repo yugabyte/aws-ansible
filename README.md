@@ -202,7 +202,7 @@ subnets:
  .........
 ```
 
-Furthermore, it is also possible to exclude the vpc creation by setting vpc_create variable to false. Howerver, it is important to notice that if the vpc is not created, the user is expected to indicate the vpc id as well as the subnet ids, otherwise it would fail:
+Furthermore, it is also possible to exclude the vpc creation by setting vpc_create variable to false. However, it is important to notice that if the vpc is not created, the user is expected to indicate the vpc id as well as the subnet ids, otherwise it would fail:
 ```
 vpc_create: true #to indicate if VPC should be created or not
 #Indicate VPC id and subnet ids if vpc_create is set to false (already a VPC is present)
