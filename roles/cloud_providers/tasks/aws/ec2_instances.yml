@@ -45,7 +45,6 @@
   loop: "{{ subnet_ids|flatten(levels=1) }}"
   loop_control:
     index_var: index
-  #with_sequence: start=1 end="{{ az_count }}"
 
 - name: filter master nodes
   set_fact:
