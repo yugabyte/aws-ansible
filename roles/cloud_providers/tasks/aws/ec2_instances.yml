@@ -92,7 +92,6 @@
 - pause:
     seconds: 5
     
-# tasks file for yugabyte_install
 - name: Add EC2 instances as known hosts
   known_hosts:
     name: "{{ item[0].public_dns_name }}"

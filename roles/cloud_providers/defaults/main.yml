@@ -7,7 +7,7 @@ vol_size: 8
 
 # defaults file for yugabyte_ec2_sg
 YUGABYTE_SEC_GROUPS:
-  - name: "{{ SGDBName }}"
+  - name: "{{ yugabyte_db_sg }}"
     description: "Yugabyte DB cluster SG"
     rules:
       - proto: tcp
@@ -38,7 +38,7 @@ YUGABYTE_SEC_GROUPS:
         from_port: 5422
         to_port: 5422
         cidr_ip: 0.0.0.0/0
-  - name: "{{ SGDBInfra }}"
+  - name: "{{ yugabyte_infra_sg }}"
     description: "Yugabyte Sec Groups for infra"
     rules:
       - proto: tcp
