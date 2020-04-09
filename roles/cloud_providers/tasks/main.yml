@@ -1,0 +1,3 @@
+#create folder for every cloud you want to add and include files there related to infrastructure resources
+- include: "{{ cloud }}/infra.yml"
+

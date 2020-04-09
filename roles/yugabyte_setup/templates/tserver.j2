@@ -1,0 +1,11 @@
+--tserver_master_addrs={{ MASTER_RPC_ADDRS | join(',') }}
+--fs_data_dirs={{ data_dir }}
+--rpc_bind_addresses={{ public_hostname }}:9100
+--cql_proxy_bind_address={{ public_hostname }}:9042 
+--redis_proxy_bind_address={{ public_hostname }}:6379    
+--webserver_interface={{ public_hostname }}                     
+--placement_cloud={{ cloud }}                       
+--placement_region={{ region }}       
+--placement_zone={{ availability_zone }}       
+--pgsql_proxy_bind_address={{ public_hostname }}:5433      
+

@@ -1,0 +1,8 @@
+---
+# defaults file for yugabyte_common
+packages_centos:
+  - epel-release
+  - ntp
+  - lsof
+  - wget
+

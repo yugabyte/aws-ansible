@@ -1,0 +1,22 @@
+#base yugabyte directory wherein all yugabyte related files will reside
+base_install: "{{ ansible_env.HOME }}/yugabyte_db"
+data_dir: "{{ base_install }}/data_dir"
+conf_dir: "{{ base_install }}/yb-conf"
+software_dir: "{{ base_install }}/yb-software"
+
+YB_VERSION: 2.1.2.0
+
+TAR_FILE: "yugabyte-{{ YB_VERSION }}-linux.tar.gz"
+
+ulimits_security:
+  - { limit_type: '-', limit_item: 'core', value: unlimited }
+  - { limit_type: '-', limit_item: 'nofile', value: 1048576 }
+  - { limit_type: '-', limit_item: 'nproc', value: 12000 }
+
+master_dir: "{{ base_install }}/master"
+tserver_dir: "{{ base_install }}/tserver"
+
+linux_distribution: "centos"
+centos_release: "7"
+
+

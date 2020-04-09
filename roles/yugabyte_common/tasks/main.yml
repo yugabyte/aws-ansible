@@ -1,0 +1,4 @@
+- include: prerequisites.yml
+- include: stop_yugabyte.yml
+- include: download_yugabyte.yml
+- include: "{{ cloud }}_get_facts.yml"

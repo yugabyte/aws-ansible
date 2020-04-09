@@ -1,0 +1,16 @@
+ansible==2.9.5
+aws-ec2==1.0.1.dev20180715112653
+boto==2.49.0
+boto3==1.7.4
+botocore==1.10.84
+cffi==1.14.0
+cryptography==2.8
+docutils==0.16
+Jinja2==2.11.1
+jmespath==0.9.5
+MarkupSafe==1.1.1
+pycparser==2.19
+python-dateutil==2.8.1
+PyYAML==5.3
+s3transfer==0.1.13
+six==1.14.0

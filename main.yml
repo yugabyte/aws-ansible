@@ -1,0 +1,31 @@
+- hosts: localhost
+  gather_facts: no #optimization to gather facts only when required
+  vars_files:
+    - creds.yml
+  roles:
+    - "cloud_providers"
+  
+- hosts: "tag_Env_Yugabyte_nodes*"
+  gather_facts: no 
+  pre_tasks:
+    - setup:
+  roles:
+    - yugabyte_common
+    - yugabyte_setup
+    - cluster_control
+        
+- hosts: tag_Env_Yugabyte_nodes_master
+  gather_facts:	no
+  pre_tasks:
+    - setup:
+  vars_files:
+    - creds.yml
+  roles:
+    - configure_region_placement
+
+- hosts: localhost
+  gather_facts: no
+  vars_files:
+    - creds.yml
+  roles:
+    - { role: get_facts_master, tags: [ 'check_master_ui'] }

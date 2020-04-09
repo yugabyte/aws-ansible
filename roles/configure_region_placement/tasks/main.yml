@@ -1,0 +1,1 @@
+- include: "{{ cloud }}_master_ui_facts.yml"

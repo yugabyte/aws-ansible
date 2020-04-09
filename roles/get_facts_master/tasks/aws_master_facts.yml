@@ -1,0 +1,23 @@
+---
+# tasks file for get_facts_master
+- name: Get facts from all master nodes
+  local_action:
+    module: ec2_instance_info
+    region: "{{ region }}"
+    filters:
+      "tag:Env": "Yugabyte_nodes_master"
+  register: instance_facts
+
+- name: print facts
+  set_fact:
+    master_ui: "{{ instance_facts | json_query('instances[?state.name == `running`].public_dns_name') | list }}"
+
+- name: set master addresses on port 7100
+  set_fact:
+    MASTER_RPC_ADDRS1: "{{ MASTER_RPC_ADDRS1 | default([]) + [':'.join((item,'7000'))] }}"
+  loop: "{{ master_ui | list }}"
+
+- name: Acces Yugabyte DB panel on these master servers
+  debug: msg="{{ item }}"
+  with_items:
+    - "{{ MASTER_RPC_ADDRS1 }}"

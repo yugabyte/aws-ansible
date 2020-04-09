@@ -1,0 +1,24 @@
+- name: Get facts from all master nodes
+  local_action:
+    module: ec2_instance_info
+    region: "{{ region }}"
+    filters:
+      "tag:Env": "Yugabyte_nodes_master"
+  register: instance_facts
+
+- name: print facts
+  set_fact:
+    master_ips: "{{ instance_facts | json_query('instances[?state.name == `running`].public_dns_name') | list }}"
+
+- name: set master addresses on port 7100
+  set_fact:
+    MASTER_RPC_ADDRS: "{{ MASTER_RPC_ADDRS | default([]) + [':'.join((item,'7100'))] }}"
+  loop: "{{ master_ips | list}}"
+
+- name: set hostname facts for tservers and tmaster servers
+  set_fact:
+    public_hostname: "{{ hostvars[inventory_hostname].public_dns_name }}"
+    availability_zone: "{{ hostvars[inventory_hostname].placement.availability_zone }}"
+
+- name: debug dns
+  debug: msg="{{ MASTER_RPC_ADDRS }}"

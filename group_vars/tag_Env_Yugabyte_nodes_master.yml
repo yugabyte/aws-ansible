@@ -1,0 +1,9 @@
+link_destinations:
+  - "{{ master_dir }}"
+  - "{{ tserver_dir }}"
+
+templates_names:
+  - "master"
+  - "tserver"
+
+
